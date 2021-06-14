@@ -1,0 +1,5 @@
+query GetProduct($productName: String!) {
+  getProduct(name: $productName) {
+    ...ProductSnippet
+  }
+}
