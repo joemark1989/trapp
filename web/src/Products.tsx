@@ -1,7 +1,6 @@
 import {
   Box,
   Flex,
-  IconButton,
   Image,
   Input,
   Text,
@@ -9,16 +8,17 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 import React from "react";
-import { FaCheck } from "react-icons/fa";
 import { useGetProductsQuery } from "./generated/graphql";
 
 function Products() {
+  const [productName, setProductName] = React.useState("");
   const onChangeHandler = (e?: any) => {
+    setProductName(e.target.value);
     return e?.target.value ? e.target.value : "";
   };
 
   const { data, loading } = useGetProductsQuery({
-    variables: { productName: onChangeHandler() },
+    variables: { productName: productName ? productName : "" },
   });
 
   if (data?.getProducts?.length === 0) {
@@ -27,6 +27,9 @@ function Products() {
     // }
     return (
       <>
+        <Text fontSize="3xl" color="inherit" mb="10" textAlign="center">
+          Start typing and see the magic happen
+        </Text>
         <Flex justifyContent="center" mb="4">
           <Input
             borderColor="teal"
@@ -38,22 +41,20 @@ function Products() {
             _hover={{ borderColor: "teal" }}
             maxLength={50}
           />
-          <IconButton
-            icon={<FaCheck />}
-            aria-label="Search Products"
-            colorScheme="teal"
-            ml="2"
-            isLoading={loading}
-            onClick={() => onChangeHandler()}
-          ></IconButton>
         </Flex>
-        <Box h="100vh">Oh no...Products.</Box>)
+        <Text fontSize="1xl" color="inherit" mb="10" textAlign="center">
+          Oh no... no products found. You entered {productName} please try
+          agian.
+        </Text>
       </>
     );
   }
 
   return (
     <Box>
+      <Text fontSize="3xl" color="inherit" mb="10" textAlign="center">
+        Start typing and see the magic happen
+      </Text>
       <Flex justifyContent="center" mb="4">
         <Input
           borderColor="teal"
@@ -65,13 +66,6 @@ function Products() {
           _hover={{ borderColor: "teal" }}
           maxLength={50}
         />
-        <IconButton
-          icon={<FaCheck />}
-          aria-label="Search Products"
-          colorScheme="teal"
-          ml="2"
-          isLoading={loading}
-        ></IconButton>
       </Flex>
       <Wrap justify="center" overflow="hidden">
         {data &&

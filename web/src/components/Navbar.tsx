@@ -1,8 +1,6 @@
-import { Flex, Heading, IconButton, Input, Link } from "@chakra-ui/react";
+import { Flex, Heading, Link } from "@chakra-ui/react";
 import React from "react";
-import { FaCheck } from "react-icons/fa";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
-import { useGetProductsQuery } from "../generated/graphql";
 
 interface NavbarProps {}
 
