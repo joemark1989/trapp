@@ -6,11 +6,11 @@ import { Products } from "../entities/Products";
 export class ProductResolver {
   @Query(() => [Products])
   getAllproducts() {
-    return Products.find();
+    return Products.find()
   }
 
   @Query(() => [Products], { nullable: true })
-  async getProduct(
+  async getProducts(
     @Arg("name", () => String) name: string
   ): Promise<Products[] | undefined> {
     const result = await getConnection()

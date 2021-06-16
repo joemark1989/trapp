@@ -29,7 +29,7 @@ let ProductResolver = class ProductResolver {
     getAllproducts() {
         return Products_1.Products.find();
     }
-    getProduct(name) {
+    getProducts(name) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = yield typeorm_1.getConnection()
                 .createQueryBuilder()
@@ -55,7 +55,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], ProductResolver.prototype, "getProduct", null);
+], ProductResolver.prototype, "getProducts", null);
 ProductResolver = __decorate([
     type_graphql_1.Resolver(Products_1.Products)
 ], ProductResolver);

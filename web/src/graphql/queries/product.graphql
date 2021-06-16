@@ -1,5 +1,5 @@
-query GetProduct($productName: String!) {
-  getProduct(name: $productName) {
+query GetProducts($productName: String!) {
+  getProducts(name: $productName) {
     ...ProductSnippet
   }
 }

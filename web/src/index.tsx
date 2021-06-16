@@ -1,12 +1,5 @@
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { ColorModeScript } from "@chakra-ui/react";
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-  gql,
-} from "@apollo/client";
-
 import * as React from "react";
 import ReactDOM from "react-dom";
 import { App } from "./App";

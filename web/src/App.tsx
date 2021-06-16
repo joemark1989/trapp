@@ -7,7 +7,7 @@ export const App = () => {
   return (
     <ChakraProvider theme={theme}>
       <Layout variant="regular">
-        <Products />
+        <Products consumeSearch="" />
       </Layout>
     </ChakraProvider>
   );
