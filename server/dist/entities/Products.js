@@ -29,6 +29,11 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], Products.prototype, "productImage", void 0);
+__decorate([
+    type_graphql_1.Field(() => String),
+    typeorm_1.CreateDateColumn(),
+    __metadata("design:type", Date)
+], Products.prototype, "createdAt", void 0);
 Products = __decorate([
     type_graphql_1.ObjectType(),
     typeorm_1.Entity()

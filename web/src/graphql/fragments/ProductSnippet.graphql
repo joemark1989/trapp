@@ -2,4 +2,5 @@ fragment ProductSnippet on Products {
   productName
   productId
   productImage
+  createdAt
 }

@@ -20,6 +20,9 @@ const main = async () => {
   });
 
   (await __prod__) ? conn.runMigrations() : null;
+
+  // await Products.delete({});
+
   const app = express();
   app.set("trust proxy", 1);
   app.use(

@@ -1,7 +1,8 @@
-query GetAllProducts {
-  getAllproducts {
-    productId
-    productName
-    productImage
+query Products($name: String!, $cursor: String, $limit: Int!) {
+  products(name: $name, cursor: $cursor, limit: $limit) {
+    hasMore
+    products {
+      ...ProductSnippet
+    }
   }
 }

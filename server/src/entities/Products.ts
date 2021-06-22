@@ -1,5 +1,11 @@
 import { Field, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 
 @ObjectType()
 @Entity()
@@ -15,4 +21,8 @@ export class Products extends BaseEntity {
   @Field()
   @Column()
   productImage: string;
+
+  @Field(() => String)
+  @CreateDateColumn()
+  createdAt: Date;
 }

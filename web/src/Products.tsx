@@ -1,104 +1,94 @@
 import {
   Box,
+  Button,
   Flex,
   Image,
-  Input,
   Text,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
 import React from "react";
-import { useGetProductsQuery } from "./generated/graphql";
+import { useProductsQuery } from "./generated/graphql";
 
-function Products() {
-  const [productName, setProductName] = React.useState("");
-  const onChangeHandler = (e?: any) => {
-    setProductName(e.target.value);
-    return e?.target.value ? e.target.value : "";
-  };
-
-  const { data, loading } = useGetProductsQuery({
-    variables: { productName: productName ? productName : "" },
+function Products({ productName }: any) {
+  const { data, loading, fetchMore, variables } = useProductsQuery({
+    variables: {
+      limit: 20,
+      cursor: null,
+      name: productName ? productName : "",
+    },
   });
+  // const { data: productList } = useGetProductsQuery({
+  //   variables: { productName: productName ? productName : "" },
+  // });
 
-  if (data?.getProducts?.length === 0) {
-    // if (products.length > 0) {
-    //   onChangeHandler(products);
-    // }
+  if (data?.products.products?.length === 0) {
     return (
-      <>
-        <Text fontSize="3xl" color="inherit" mb="10" textAlign="center">
-          Start typing and see the magic happen
-        </Text>
-        <Flex justifyContent="center" mb="4">
-          <Input
-            borderColor="teal"
-            color="inherit"
-            maxW={600}
-            ml={{ md: "4", base: "2" }}
-            alignSelf="center"
-            onChange={(e) => onChangeHandler(e)}
-            _hover={{ borderColor: "teal" }}
-            maxLength={50}
-          />
-        </Flex>
-        <Text fontSize="1xl" color="inherit" mb="10" textAlign="center">
-          Oh no... no products found. You entered {productName} please try
-          agian.
-        </Text>
-      </>
+      <Text fontSize="2xl" color="inherit" mb="10" textAlign="center">
+        No products found. You entered {productName} please try agian.
+      </Text>
     );
+  }
+  if (loading) {
+    return <Box>...Loading</Box>;
   }
 
   return (
     <Box>
-      <Text fontSize="3xl" color="inherit" mb="10" textAlign="center">
-        Start typing and see the magic happen
-      </Text>
-      <Flex justifyContent="center" mb="4">
-        <Input
-          borderColor="teal"
-          color="inherit"
-          maxW={600}
-          ml={{ md: "4", base: "2" }}
-          alignSelf="center"
-          onChange={(e) => onChangeHandler(e)}
-          _hover={{ borderColor: "teal" }}
-          maxLength={50}
-        />
-      </Flex>
       <Wrap justify="center" overflow="hidden">
-        {data &&
-          data?.getProducts?.map((product) => (
-            <WrapItem key={product.productId} p={0.5}>
-              <Box
-                p={4}
-                maxW={{ lg: "26rem", sm: "20rem", base: "18rem" }}
-                borderWidth={2}
-                rounded="base"
-                height="100%"
+        {data?.products.products?.map((product, idx) => (
+          <WrapItem key={product.productId} p={0.5}>
+            <Box
+              p={4}
+              maxW={{ lg: "26rem", sm: "20rem", base: "18rem" }}
+              borderWidth={2}
+              rounded="base"
+              borderColor="#CDCDCD"
+              height="100%"
+            >
+              <Image
+                width="100vw"
+                src={product.productImage}
+                alt="random images"
+                height="15rem"
+                key={product.productId}
+              />
+              <Text
+                fontWeight="bold"
+                textTransform="uppercase"
+                fontSize="lg"
+                mt="1"
+                letterSpacing="wide"
+                color="teal.600"
               >
-                <Image
-                  width="100vw"
-                  src={product.productImage}
-                  alt="random images"
-                  height="15rem"
-                  key={product.productId}
-                />
-                <Text
-                  fontWeight="bold"
-                  textTransform="uppercase"
-                  fontSize="lg"
-                  mt="1"
-                  letterSpacing="wide"
-                  color="teal.600"
-                >
-                  {product.productName}
-                </Text>
-              </Box>
-            </WrapItem>
-          ))}
+                {product.productName}
+              </Text>
+            </Box>
+          </WrapItem>
+        ))}
       </Wrap>
+      {data && data.products.hasMore ? (
+        <Flex>
+          <Button
+            onClick={() => {
+              fetchMore({
+                variables: {
+                  limit: variables?.limit,
+                  cursor:
+                    data.products.products[data.products.products.length - 1]
+                      .createdAt,
+                },
+              });
+            }}
+            isLoading={loading}
+            m="auto"
+            my="8"
+            background="teal.400"
+          >
+            Load More
+          </Button>
+        </Flex>
+      ) : null}
     </Box>
   );
 }
